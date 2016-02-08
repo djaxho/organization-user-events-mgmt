@@ -89,8 +89,9 @@
                             @endif
 
                     @endforeach
-
+                    <a class="btn btn-default" href="{{url("/$primaryModel")}}s"><i class="fa fa-long-arrow-left"></i> Back</a>
                     <button class="btn btn-primary" type="submit"><i class="fa fa-floppy-o"></i> Save {{ucfirst($primaryModel)}}</button>
+
 
                 </form>
 
