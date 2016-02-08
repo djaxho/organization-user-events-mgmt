@@ -12,7 +12,7 @@ class Permission extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'label',
+        'name', 'label', 'about'
     ];
 
     /**
@@ -21,5 +21,15 @@ class Permission extends Model
     public function roles()
     {
         return $this->belongsToMany('App\Role');
+    }
+
+    public function attachRole($role)
+    {
+        return $this->roles()->attach($role);
+    }
+
+    public function detachRole($role)
+    {
+        return $this->roles()->detach($role);
     }
 }

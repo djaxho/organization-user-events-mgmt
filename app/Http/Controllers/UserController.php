@@ -134,7 +134,29 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        //
+        $data = [];
+
+        $user = User::with('roles.permissions', 'organizations.groups', 'groups')->find($id);
+        $roles = $this->roles->all();
+        $organizations = $this->organizations->all();
+        $groups = [];
+        foreach($user->organizations as $organization){
+            foreach($organization->groups as $group) {
+                $groups[$group->id] = $group->toArray();
+            }
+        }
+
+        $data['primaryModel'] = 'user';
+        $data['primaryModelData'] = $user->toArray();
+        $data['secondaryModelData'] = [
+            'roles' => $roles->toArray(),
+            'organizations' => $organizations->toArray(),
+            'groups' => $groups
+        ];
+
+        unset($data['primaryModelData']['created_at'],$data['primaryModelData']['updated_at']);
+
+        return view('admin.edit', $data);
     }
 
     /**
@@ -148,20 +170,38 @@ class UserController extends Controller
     {
         $user = User::find($id);
 
-        $name = $request->input('name', '');
-        $email = $request->input('email', '');
+        $user->fill($request->all());
 
-        if ($name) {
-            $user->name = $name;
+        $user->roles()->detach();
+        $user->organizations()->detach();
+        $user->groups()->detach();
+
+        if(is_array($request->input('roles'))) {
+            foreach($request->input('roles') as $id) {
+                $user->attachRole($id);
+            }
         }
 
-        if ($email) {
-            $user->email = $email;
+        if(is_array($request->input('organizations'))) {
+            foreach($request->input('organizations') as $id) {
+                $user->attachOrganization($id);
+            }
         }
 
-        $user->save();
+        if(is_array($request->input('groups'))) {
+            foreach($request->input('groups') as $id) {
+                $user->attachGroup($id);
+            }
+        }
 
-        return $user;
+        $user->push();
+
+        if($request->wantsJson()) {
+            return $user;
+        } else {
+            return back()->withInput();
+        }
+
     }
 
     public function updateRole(Request $request)

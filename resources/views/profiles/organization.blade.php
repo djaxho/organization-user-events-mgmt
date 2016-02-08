@@ -8,7 +8,7 @@
 
 	<ol class="breadcrumb">
 	    <li><a href="index.html"><i class="fa fa-home fa-fw"></i> Home</a></li>
-        <li><a href="/admin/organizations"> Organizations</a></li>
+        <li><a href="/organizations"> Organizations</a></li>
 	    <li class="active">{{$organization->name}}</li>
 	</ol>
 		

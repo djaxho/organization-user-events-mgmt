@@ -180,15 +180,15 @@
                                 <div id="dropdown-users" class="panel-collapse collapse">
                                     <div class="panel-body">
                                         <ul class="nav navbar-nav">
-                                            <li><a href="/admin/organizations">Organizations</a>
+                                            <li><a href="/organizations">Organizations</a>
                                             </li>
-                                            <li><a href="/admin/groups">Groups / Clubs</a>
+                                            <li><a href="/groups">Groups / Clubs</a>
                                             </li>
-                                            <li><a href="/admin/users">Users</a>
+                                            <li><a href="/users">Users</a>
                                             </li>
-                                            <li><a href="/admin/roles">User Roles</a>
+                                            <li><a href="/roles">User Roles</a>
                                             </li>
-                                            <li><a href="/admin/permissions">User Permissions</a>
+                                            <li><a href="/permissions">User Permissions</a>
                                             </li>
                                         </ul>
                                     </div>

@@ -8,7 +8,7 @@
 
 	<ol class="breadcrumb">
 	    <li><a href="index.html"><i class="fa fa-home fa-fw"></i> Home</a></li>
-        <li><a href="/admin/users"> Users</a></li>
+        <li><a href="/users"> Users</a></li>
 	    <li>User Profile</li>
 	    <li class="active">{{$user->name}}</li>
 	</ol>

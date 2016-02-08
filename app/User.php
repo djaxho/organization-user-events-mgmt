@@ -12,7 +12,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password', 'phone', 'phone2', 'address1street', 'address1city', 'address1state', 'address1zip', 'address2street', 'address2city', 'address2state', 'address2zip', 'about'
     ];
 
     /**
@@ -86,7 +86,7 @@ class User extends Authenticatable
      */
     public function attachRole($role)
     {
-        $this->roles()->detach();
+//        $this->roles()->detach();
 
         return $this->roles()->attach($role);
     }

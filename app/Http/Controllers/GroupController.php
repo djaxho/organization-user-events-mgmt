@@ -7,14 +7,17 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Group;
+use App\Repositories\OrganizationRepository;
 use App\Repositories\GroupRepository;
 
 class GroupController extends Controller
 {
+    protected $organizations;
     protected $groups;
 
-    public function __construct(GroupRepository $groups)
+    public function __construct(OrganizationRepository $organizations, GroupRepository $groups)
     {
+        $this->organizations = $organizations;
         $this->groups = $groups;
     }
 
@@ -52,12 +55,14 @@ class GroupController extends Controller
     {
         $name = $request->input('name', '');
         $label = $request->input('label', '');
+        $about = $request->input('about', '');
 
-        if ($label && $name) {
+        if ($label && $name && $about) {
 
             $group = Group::create([
                 'name' => $name,
-                'label' => $label
+                'label' => $label,
+                'about' => $about
             ]);
 
             if(!$group) {
@@ -96,7 +101,20 @@ class GroupController extends Controller
      */
     public function edit($id)
     {
-        //
+        $data = [];
+
+        $group = Group::with('organizations')->find($id);
+        $organizations = $this->organizations->all();
+
+        $data['primaryModel'] = 'group';
+        $data['primaryModelData'] = $group->toArray();
+        $data['secondaryModelData'] = [
+            'organizations' => $organizations->toArray()
+        ];
+
+        unset($data['primaryModelData']['created_at'],$data['primaryModelData']['updated_at']);
+
+        return view('admin.edit', $data);
     }
 
     /**
@@ -110,20 +128,23 @@ class GroupController extends Controller
     {
         $group = Group::find($id);
 
-        $name = $request->input('name', '');
-        $label = $request->input('label', '');
+        $group->fill($request->all());
 
-        if ($name) {
-            $group->name = $name;
+        $group->organizations()->detach();
+
+        if(is_array($request->input('organizations'))) {
+            foreach($request->input('organizations') as $id) {
+                $group->attachOrganization($id);
+            }
         }
 
-        if ($label) {
-            $group->label = $label;
+        $group->push();
+
+        if($request->wantsJson()) {
+            return $group;
+        } else {
+            return back()->withInput();
         }
-
-        $group->save();
-
-        return $group;
     }
 
     /**

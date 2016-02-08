@@ -8,14 +8,17 @@ use App\Role;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Repositories\RoleRepository;
+use App\Repositories\PermissionRepository;
 
 class RoleController extends Controller
 {
     protected $roles;
+    protected $permissions;
 
-    public function __construct(RoleRepository $roles)
+    public function __construct(RoleRepository $roles, PermissionRepository $permissions)
     {
         $this->roles = $roles;
+        $this->permissions = $permissions;
     }
 
     /**
@@ -52,12 +55,14 @@ class RoleController extends Controller
     {
         $name = $request->input('name', '');
         $label = $request->input('label', '');
+        $about = $request->input('about', '');
 
-        if ($label && $name) {
+        if ($label && $name && $about) {
 
             $role = Role::create([
                 'name' => $name,
-                'label' => $label
+                'label' => $label,
+                'about' => $about
             ]);
 
             if(!$role) {
@@ -96,7 +101,20 @@ class RoleController extends Controller
      */
     public function edit($id)
     {
-        //
+        $data = [];
+
+        $role = Role::with('permissions')->find($id);
+        $permissions = $this->permissions->all();
+
+        $data['primaryModel'] = 'role';
+        $data['primaryModelData'] = $role->toArray();
+        $data['secondaryModelData'] = [
+            'permissions' => $permissions->toArray()
+        ];
+
+        unset($data['primaryModelData']['created_at'],$data['primaryModelData']['updated_at']);
+
+        return view('admin.edit', $data);
     }
 
     /**
@@ -110,20 +128,23 @@ class RoleController extends Controller
     {
         $role = Role::find($id);
 
-        $name = $request->input('name', '');
-        $label = $request->input('label', '');
+        $role->fill($request->all());
 
-        if ($name) {
-            $role->name = $name;
+        $role->permissions()->detach();
+
+        if(is_array($request->input('permissions'))) {
+            foreach($request->input('permissions') as $id) {
+                $role->attachPermission($id);
+            }
         }
 
-        if ($label) {
-            $role->label = $label;
+        $role->push();
+
+        if($request->wantsJson()) {
+            return $role;
+        } else {
+            return back()->withInput();
         }
-
-        $role->save();
-
-        return $role;
     }
 
     /**

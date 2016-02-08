@@ -4,7 +4,7 @@
 
 		<ol class="breadcrumb">
 		    <li><a href="index.html"><i class="fa fa-home fa-fw"></i> Home</a></li>
-	        <li><a href="/admin/users"> Users</a></li>
+	        <li><a href="/users"> Users</a></li>
 		</ol>
 		
 	@endsection
@@ -13,7 +13,7 @@
 
 	@section('model')
 
-		<div class="table-responsive">
+		<div class="table">
 		  	<table datatable="ng" dt-options="dtOptions" class="table table-striped">
 				<thead>
 				  <tr>
@@ -59,10 +59,20 @@
 						</td>
 
 						<td class="text-right">
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-default btn-sm dropdown-toggle" ng-hide="user.showEdit" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-cog"></i> Options <span class="caret"></span></button>
+
+                                <ul class="dropdown-menu">
+                                    <li><a href="#" ng-click="user.showEdit = true"><i class="fa fa-fighter-jet"></i> Quick edit</a></li>
+                                    <li><a href="/users/@{{user.id}}/edit"><i class="fa fa-pencil-square-o"></i> Full edit</a></li>
+                                    <li role="separator" class="divider"></li>
+                                    <li><a href="#" ng-click="deleteUser($index, user)"><i class="fa fa-trash-o"></i> Delete</a></li>
+                                </ul>
+                            </div>
 							<span class="btn btn-default btn-sm" ng-show="user.showEdit" ng-click="user.showEdit = false"><i class="fa fa-times"></i> Exit Edit Mode</span>
 							<span ng-show="user.showEdit" class="btn btn-info btn-sm" ng-click="updateUser(user)"><i class="fa fa-floppy-o"></i> @{{user.saveDetailsButton ? user.saveDetailsButton : "Save"}}</span>
-							<span class="btn btn-default btn-sm" ng-hide="user.showEdit" ng-click="user.showEdit = true"><i class="fa fa-pencil"></i> Quick Edit</span>
-							<span class="btn btn-danger btn-sm" ng-click="deleteUser($index, user)"><i class="fa fa-trash-o"></i> Delete</span>
+							{{--<span class="btn btn-default btn-sm" ng-hide="user.showEdit" ng-click="user.showEdit = true"><i class="fa fa-pencil"></i> Quick Edit</span>
+							<span class="btn btn-danger btn-sm" ng-click="deleteUser($index, user)"><i class="fa fa-trash-o"></i> Delete</span>--}}
 						</td>
 					</tr>	
 				</tbody>
@@ -71,6 +81,7 @@
 		<div>
 			@include('admin.partials.register.user')
 		</div>
+
 	@endsection
 
 	@section('async-js')
