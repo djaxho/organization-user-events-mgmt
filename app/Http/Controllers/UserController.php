@@ -20,12 +20,10 @@ use App\Repositories\RoleRepository;
 
 class UserController extends Controller
 {
-    /**
-     * The user repository instance.
-     *
-     * @var UserRepository
-     */
     protected $users;
+    protected $roles;
+    protected $organizations;
+    protected $groups;
 
     /**
      * Create a new controller instance.

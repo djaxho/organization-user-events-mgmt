@@ -69,28 +69,17 @@
 			    $scope.dtOptions = DTOptionsBuilder.newOptions()
 			        .withDisplayLength(8);
 
-		        $scope.permissions = [];
-		        $scope.roles = [];
+				$scope.permissions = {!! $permissions !!};
 
 		        $scope.init = function() {
-		        	$http.get("/permission")
-		        	.success(function(data, status, headers, config) {
-		                $scope.permissions = data;
-		                console.log(data);
-		            })
-		            .error(function(data, status, headers, config) {
-		                alert("finding permissions failed");
-		            });
-
-		            $('#model-data').fadeIn();
-
+		        	$('#model-data').fadeIn();
 		        };
 
 		        $scope.updatePermission = function(permission) {
 			 		
 			 		permission.saveDetailsButton = 'Saving...';
 
-					$http.put('/permission/' + permission.id, {
+					$http.put('/permissions/' + permission.id, {
 						name: permission.name,
 						label: permission.label,
 						_token: "<?php echo csrf_token(); ?>"
@@ -113,7 +102,7 @@
 
 				$scope.deletePermission = function($index, permission) {
 			 
-					$http.delete('/permission/' + permission.id, {
+					$http.delete('/permissions/' + permission.id, {
 						_token: "<?php echo csrf_token(); ?>"
 
 					})

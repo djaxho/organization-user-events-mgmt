@@ -92,15 +92,12 @@
 		        $scope.saveRoleButton = 'Save';
 
 		        $scope.init = function() {
-
-
-
 		            $('#model-data').fadeIn();
 		        };
 
 		        var updateRole = function(user) {
 
-					$http.post('/user/updateRole', {
+					$http.post('/users/updateRole', {
 						_contact_id: user.id,
 						_role_id: user.role,
 						_token: "<?php echo csrf_token(); ?>"
@@ -118,7 +115,7 @@
 			 		
 			 		user.saveDetailsButton = 'Saving...';
 
-					$http.put('/user/' + user.id, {
+					$http.put('/users/' + user.id, {
 						name: user.name,
 						email: user.email,
 						_token: "<?php echo csrf_token(); ?>"
@@ -142,7 +139,7 @@
 
 				$scope.deleteUser = function($index, user) {
 			 
-					$http.delete('/user/' + user.id, {
+					$http.delete('/users/' + user.id, {
 						_token: "<?php echo csrf_token(); ?>"
 
 					})

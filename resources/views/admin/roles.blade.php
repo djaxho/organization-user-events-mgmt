@@ -69,27 +69,17 @@
 			    $scope.dtOptions = DTOptionsBuilder.newOptions()
 			        .withDisplayLength(8);
 
-		        $scope.roles = [];
+				$scope.roles = {!! $roles !!};
 
 		        $scope.init = function() {
-		        	$http.get("/role")
-		        	.success(function(data, status, headers, config) {
-		                $scope.roles = data;
-		                console.log(data);
-		            })
-		            .error(function(data, status, headers, config) {
-		                alert("finding roles failed");
-		            });
-
-		            $('#model-data').fadeIn();
-
+		        	$('#model-data').fadeIn();
 		        };
 
 		        $scope.updateRole = function(role) {
 			 		
 			 		role.saveDetailsButton = 'Saving...';
 
-					$http.put('/role/' + role.id, {
+					$http.put('/roles/' + role.id, {
 						name: role.name,
 						label: role.label,
 						_token: "<?php echo csrf_token(); ?>"
@@ -112,7 +102,7 @@
 
 				$scope.deleteRole = function($index, role) {
 			 
-					$http.delete('/role/' + role.id, {
+					$http.delete('/roles/' + role.id, {
 						_token: "<?php echo csrf_token(); ?>"
 
 					})

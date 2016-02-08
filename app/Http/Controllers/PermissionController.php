@@ -7,9 +7,17 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Permission;
+use App\Repositories\PermissionRepository;
 
 class PermissionController extends Controller
 {
+    protected $permissions;
+
+    public function __construct(PermissionRepository $permissions)
+    {
+        $this->permissions = $permissions;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -17,11 +25,11 @@ class PermissionController extends Controller
      */
     public function index()
     {
-        // find all permissions with their associations
-        $permissions = Permission::with('roles.users')->get();
+        $permissions = $this->permissions->all();
 
-        // echo '<pre>'; print_r(json_decode($permissions));
-        return response()->json($permissions);
+        $data['permissions'] = ($permissions) ? json_encode($permissions) : json_encode([]);
+
+        return view('admin.permissions', $data);
     }
 
     /**

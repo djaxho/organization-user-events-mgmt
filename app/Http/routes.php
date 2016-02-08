@@ -49,10 +49,10 @@ Route::group(['middleware' => 'web'], function () {
     });
 
     // API Routes
-    Route::resource('organization', 'OrganizationController');
-    Route::resource('group', 'GroupController');
-    Route::resource('user', 'UserController');
-    Route::post('user/updateRole', 'UserController@updateRole');
-    Route::resource('role', 'RoleController');
-    Route::resource('permission', 'PermissionController');
+    Route::resource('organizations', 'OrganizationController');
+    Route::resource('groups', 'GroupController');
+    Route::resource('users', 'UserController');
+    Route::post('users/updateRole', 'UserController@updateRole');
+    Route::resource('roles', 'RoleController');
+    Route::resource('permissions', 'PermissionController');
 });

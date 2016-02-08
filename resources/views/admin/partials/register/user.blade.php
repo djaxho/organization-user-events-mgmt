@@ -8,7 +8,7 @@
             </div>
         @endif
 
-        <form class="form-horizontal" role="form" method="POST" action="{{ url('/user') }}">
+        <form class="form-horizontal" role="form" method="POST" action="{{ url('/users') }}">
 
             {!! csrf_field() !!}
 

@@ -8,9 +8,17 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Organization;
 use App\User;
+use App\Repositories\OrganizationRepository;
 
 class OrganizationController extends Controller
 {
+    protected $organizations;
+
+    public function __construct(OrganizationRepository $organizations)
+    {
+        $this->organizations = $organizations;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -18,19 +26,11 @@ class OrganizationController extends Controller
      */
     public function index()
     {
-        // find all organizations with their associations
-        $organizations = Organization::with('groups', 'users')->get();
+        $organizations = $this->organizations->all();
 
-        // find all possible organizations and roles in the DB
-        $users = User::all();
+        $data['organizations'] = ($organizations) ? json_encode($organizations) : json_encode([]);
 
-        // add some traits to each user
-        foreach ($organizations as &$organization) {
-                $organization->availUsers = $users;
-        }
-
-        // echo '<pre>'; print_r(json_decode($organizations));
-        return response()->json($organizations);
+        return view('admin.organizations', $data);
     }
 
     /**

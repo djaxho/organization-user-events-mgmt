@@ -7,9 +7,17 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Group;
+use App\Repositories\GroupRepository;
 
 class GroupController extends Controller
 {
+    protected $groups;
+
+    public function __construct(GroupRepository $groups)
+    {
+        $this->groups = $groups;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -17,11 +25,11 @@ class GroupController extends Controller
      */
     public function index()
     {
-        // find all groups with their associations
-        $groups = Group::with('organizations.users')->get();
+        $groups = $this->groups->all();
 
-        // echo '<pre>'; print_r(json_decode($groups));
-        return response()->json($groups);
+        $data['groups'] = ($groups) ? json_encode($groups) : json_encode([]);
+
+        return view('admin.groups', $data);
     }
 
     /**

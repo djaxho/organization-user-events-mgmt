@@ -69,28 +69,17 @@
 			    $scope.dtOptions = DTOptionsBuilder.newOptions()
 			        .withDisplayLength(8);
 
-		        $scope.groups = [];
-		        $scope.roles = [];
+				$scope.groups = {!! $groups !!};
 
 		        $scope.init = function() {
-		        	$http.get("/group")
-		        	.success(function(data, status, headers, config) {
-		                $scope.groups = data;
-		                console.log(data);
-		            })
-		            .error(function(data, status, headers, config) {
-		                alert("finding groups failed");
-		            });
-
-		            $('#model-data').fadeIn();
-
+		        	$('#model-data').fadeIn();
 		        };
 
 		        $scope.updateGroup = function(group) {
 			 		
 			 		group.saveDetailsButton = 'Saving...';
 
-					$http.put('/group/' + group.id, {
+					$http.put('/groups/' + group.id, {
 						name: group.name,
 						label: group.label,
 						_token: "<?php echo csrf_token(); ?>"
@@ -113,7 +102,7 @@
 
 				$scope.deleteGroup = function($index, group) {
 			 
-					$http.delete('/group/' + group.id, {
+					$http.delete('/groups/' + group.id, {
 						_token: "<?php echo csrf_token(); ?>"
 
 					})

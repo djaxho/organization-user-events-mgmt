@@ -7,9 +7,17 @@ use App\Role;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use App\Repositories\RoleRepository;
 
 class RoleController extends Controller
 {
+    protected $roles;
+
+    public function __construct(RoleRepository $roles)
+    {
+        $this->roles = $roles;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -17,11 +25,11 @@ class RoleController extends Controller
      */
     public function index()
     {
-        // find all roles with their associations
-        $roles = Role::with('permissions', 'users')->get();
+        $roles = $this->roles->all();
 
-        // echo '<pre>'; print_r(json_decode($roles));
-        return response()->json($roles);
+        $data['roles'] = ($roles) ? json_encode($roles) : json_encode([]);
+
+        return view('admin.roles', $data);
     }
 
     /**

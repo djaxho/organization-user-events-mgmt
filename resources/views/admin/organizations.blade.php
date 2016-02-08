@@ -57,9 +57,6 @@
 	@section('async-js')
 		<script>
 
-
-
-
 		    myApp = angular.module("myapp", ['datatables'])
 		    
 		    myApp.controller("MyController", function($scope, $http, $timeout, DTOptionsBuilder) 
@@ -69,28 +66,17 @@
 			    $scope.dtOptions = DTOptionsBuilder.newOptions()
 			        .withDisplayLength(8);
 
-		        $scope.organizations = [];
-		        $scope.roles = [];
+				$scope.organizations = {!! $organizations !!};
 
 		        $scope.init = function() {
-		        	$http.get("/organization")
-		        	.success(function(data, status, headers, config) {
-		                $scope.organizations = data;
-		                console.log(data);
-		            })
-		            .error(function(data, status, headers, config) {
-		                alert("finding organizations failed");
-		            });
-
-		            $('#model-data').fadeIn();
-
+					$('#model-data').fadeIn();
 		        };
 
 		        $scope.updateOrganization = function(organization) {
 			 		
 			 		organization.saveDetailsButton = 'Saving...';
 
-					$http.put('/organization/' + organization.id, {
+					$http.put('/organizations/' + organization.id, {
 						name: organization.name,
 						label: organization.label,
 						_token: "<?php echo csrf_token(); ?>"
@@ -113,7 +99,7 @@
 
 				$scope.deleteOrganization = function($index, organization) {
 			 
-					$http.delete('/organization/' + organization.id, {
+					$http.delete('/organizations/' + organization.id, {
 						_token: "<?php echo csrf_token(); ?>"
 
 					})
