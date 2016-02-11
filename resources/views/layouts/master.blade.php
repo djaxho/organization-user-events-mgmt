@@ -9,7 +9,8 @@
 
   @yield('head')
   <!-- Fonts -->
-  <link href="http://fonts.googleapis.com/css?family=Roboto+Condensed:300,400,500,700,400italic" rel="stylesheet">
+{{--  <link href="http://fonts.googleapis.com/css?family=Roboto+Condensed:300,400,500,700,400italic" rel="stylesheet">--}}
+    <link href="http://fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic" rel="stylesheet">
   <link href='http://fonts.googleapis.com/css?family=Lato:300,400,700,900' rel='stylesheet' type='text/css'>
 
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
@@ -26,6 +27,8 @@
   <link rel="stylesheet" type="text/css" href="/css/style.css">
   <link rel="stylesheet" type="text/css" href="/css/themes/flat-blue.css">
 
+    <style>body {font-family: "Roboto" !important;}</style>
+
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
   <script type="text/javascript" src="/js/jquery.dataTables.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
@@ -37,7 +40,7 @@
 </head>
 
 <body class="flat-blue">
-    <div class="app-container">
+    <div class="app-container expanded">
         <div class="row content-container">
             <nav class="navbar navbar-default navbar-fixed-top navbar-top">
                 <div class="container-fluid">
@@ -133,12 +136,12 @@
                             </button>
                         </div>
                         <ul class="nav navbar-nav">
-                            <li class="active">
+                            <li >
                                 <a href="index.html">
                                     <span class="icon fa fa-tachometer"></span><span class="title">Dashboard</span>
                                 </a>
                             </li>
-                            <li class="panel panel-default dropdown">
+                            {{--<li class="panel panel-default dropdown">
                                 <a data-toggle="collapse" href="#dropdown-element">
                                     <span class="icon fa fa-desktop"></span><span class="title">UI Kits</span>
                                 </a>
@@ -171,8 +174,8 @@
                                         </ul>
                                     </div>
                                 </div>
-                            </li>
-                            <li class="panel panel-default dropdown">
+                            </li>--}}
+                            <li class="panel panel-default dropdown active">
                                 <a data-toggle="collapse" href="#dropdown-users">
                                     <span class="icon fa fa-users"></span><span class="title">System Admin</span>
                                 </a>
@@ -194,7 +197,7 @@
                                     </div>
                                 </div>
                             </li>
-                            <li class="panel panel-default dropdown">
+                            {{--<li class="panel panel-default dropdown">
                                 <a data-toggle="collapse" href="#dropdown-form">
                                     <span class="icon fa fa-file-text-o"></span><span class="title">Form</span>
                                 </a>
@@ -207,8 +210,8 @@
                                         </ul>
                                     </div>
                                 </div>
-                            </li>
-                            <!-- Dropdown-->
+                            </li>--}}
+                           {{-- <!-- Dropdown-->
                             <li class="panel panel-default dropdown">
                                 <a data-toggle="collapse" href="#component-example">
                                     <span class="icon fa fa-cubes"></span><span class="title">Components</span>
@@ -224,8 +227,8 @@
                                         </ul>
                                     </div>
                                 </div>
-                            </li>
-                            <!-- Dropdown-->
+                            </li>--}}
+                           {{-- <!-- Dropdown-->
                             <li class="panel panel-default dropdown">
                                 <a data-toggle="collapse" href="#dropdown-example">
                                     <span class="icon fa fa-slack"></span><span class="title">Page Example</span>
@@ -241,8 +244,8 @@
                                         </ul>
                                     </div>
                                 </div>
-                            </li>
-                            <!-- Dropdown-->
+                            </li>--}}
+                           {{-- <!-- Dropdown-->
                             <li class="panel panel-default dropdown">
                                 <a data-toggle="collapse" href="#dropdown-icon">
                                     <span class="icon fa fa-archive"></span><span class="title">Icons</span>
@@ -258,12 +261,12 @@
                                         </ul>
                                     </div>
                                 </div>
-                            </li>
-                            <li>
+                            </li>--}}
+                           {{-- <li>
                                 <a href="license.html">
                                     <span class="icon fa fa-thumbs-o-up"></span><span class="title">License</span>
                                 </a>
-                            </li>
+                            </li>--}}
                         </ul>
                     </div>
                     <!-- /.navbar-collapse -->
@@ -294,32 +297,18 @@
         </div>
         <footer class="app-footer">
             <div class="wrapper">
-                <span class="pull-right">2.1 <a href="#"><i class="fa fa-long-arrow-up"></i></a></span> © 2016 Copyright.
+                <span class="pull-right"><a href="#"><i class="fa fa-long-arrow-up"></i></a></span> © 2016 Copyright.
             </div>
         </footer>
         <div>
             <!-- Javascript Libs -->
-            
             <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-            
-            <script type="text/javascript" src="/js/Chart.min.js"></script>
             <script type="text/javascript" src="/js/bootstrap-switch.min.js"></script>
             <script type="text/javascript" src="/js/jquery.matchHeight-min.js"></script>
-            
             <script type="text/javascript" src="/js/dataTables.bootstrap.min.js"></script>
-            
-            
-
-
-
-
             <script type="text/javascript" src="/js/select2.full.min.js"></script>
-            <script type="text/javascript" src="/js/ace/ace.js"></script>
-            <script type="text/javascript" src="/js/ace/mode-html.js"></script>
-            <script type="text/javascript" src="/js/ace/theme-github.js"></script>
             <!-- Javascript -->
             <script type="text/javascript" src="/js/app.js"></script>
-            <script type="text/javascript" src="/js/index.js"></script>
             @yield('async-js')
 </body>
 </html>

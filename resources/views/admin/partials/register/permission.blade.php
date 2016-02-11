@@ -54,6 +54,22 @@ role.blade.php<div class="panel panel-default">
                 </div>
             </div>
 
+            <div class="form-group{{ $errors->has('roles') ? ' has-error' : '' }}">
+                <label class="col-md-4 control-label">Grant Permission to Roles</label>
+
+                <div class="col-md-6">
+                    <select multiple name="roles[]" style="width:25%">
+                        <option ng-repeat="role in roles" value="@{{role.id}}">@{{role.label}}</option>
+                    </select>
+
+                    @if ($errors->has('roles'))
+                        <span class="help-block">
+                            <strong>{{ $errors->first('roles') }}</strong>
+                        </span>
+                    @endif
+                </div>
+            </div>
+
             <div class="form-group">
                 <div class="col-md-6 col-md-offset-4">
                     <button type="submit" class="btn btn-primary">

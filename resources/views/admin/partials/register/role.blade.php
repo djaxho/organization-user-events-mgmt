@@ -54,6 +54,22 @@
                 </div>
             </div>
 
+            <div class="form-group{{ $errors->has('permissions') ? ' has-error' : '' }}">
+                <label class="col-md-4 control-label">Add permissions</label>
+
+                <div class="col-md-6">
+                    <select multiple name="permissions[]" style="width:25%">
+                        <option ng-repeat="permission in permissions" value="@{{permission.id}}">@{{permission.label}}</option>
+                    </select>
+
+                    @if ($errors->has('permissions'))
+                        <span class="help-block">
+                            <strong>{{ $errors->first('permissions') }}</strong>
+                        </span>
+                    @endif
+                </div>
+            </div>
+
             <div class="form-group">
                 <div class="col-md-6 col-md-offset-4">
                     <button type="submit" class="btn btn-primary">

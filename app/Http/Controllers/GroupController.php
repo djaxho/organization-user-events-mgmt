@@ -9,16 +9,18 @@ use App\Http\Controllers\Controller;
 use App\Group;
 use App\Repositories\OrganizationRepository;
 use App\Repositories\GroupRepository;
+use App\Repositories\UserRepository;
 
 class GroupController extends Controller
 {
     protected $organizations;
     protected $groups;
 
-    public function __construct(OrganizationRepository $organizations, GroupRepository $groups)
+    public function __construct(OrganizationRepository $organizations, GroupRepository $groups, UserRepository $users)
     {
         $this->organizations = $organizations;
         $this->groups = $groups;
+        $this->users = $users;
     }
 
     /**
@@ -28,9 +30,13 @@ class GroupController extends Controller
      */
     public function index()
     {
+        $organizations = $this->organizations->all();
         $groups = $this->groups->all();
+        $users = $this->users->all();
 
+        $data['organizations'] = ($organizations) ? json_encode($organizations) : json_encode([]);
         $data['groups'] = ($groups) ? json_encode($groups) : json_encode([]);
+        $data['users'] = ($users) ? json_encode($users) : json_encode([]);
 
         return view('admin.groups', $data);
     }
@@ -64,6 +70,18 @@ class GroupController extends Controller
                 'label' => $label,
                 'about' => $about
             ]);
+
+            if(is_array($request->input('organizations'))) {
+                foreach($request->input('organizations') as $id) {
+                    $group->attachOrganization($id);
+                }
+            }
+
+            if(is_array($request->input('users'))) {
+                foreach($request->input('users') as $id) {
+                    $group->attachUser($id);
+                }
+            }
 
             if(!$group) {
                 $status = 'Failed to add group to the system.';
@@ -103,13 +121,15 @@ class GroupController extends Controller
     {
         $data = [];
 
-        $group = Group::with('organizations')->find($id);
+        $group = Group::with('organizations','users')->find($id);
         $organizations = $this->organizations->all();
+        $users = $this->users->all();
 
         $data['primaryModel'] = 'group';
         $data['primaryModelData'] = $group->toArray();
         $data['secondaryModelData'] = [
-            'organizations' => $organizations->toArray()
+            'organizations' => $organizations->toArray(),
+            'users' => $users->toArray()
         ];
 
         unset($data['primaryModelData']['created_at'],$data['primaryModelData']['updated_at']);
@@ -129,12 +149,18 @@ class GroupController extends Controller
         $group = Group::find($id);
 
         $group->fill($request->all());
-
         $group->organizations()->detach();
+        $group->users()->detach();
 
         if(is_array($request->input('organizations'))) {
             foreach($request->input('organizations') as $id) {
                 $group->attachOrganization($id);
+            }
+        }
+
+        if(is_array($request->input('users'))) {
+            foreach($request->input('users') as $id) {
+                $group->attachUser($id);
             }
         }
 

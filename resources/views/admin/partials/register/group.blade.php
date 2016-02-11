@@ -54,6 +54,38 @@
                 </div>
             </div>
 
+            <div class="form-group{{ $errors->has('users') ? ' has-error' : '' }}">
+                <label class="col-md-4 control-label">Add Users</label>
+
+                <div class="col-md-6">
+                    <select multiple name="users[]" style="width:25%">
+                        <option ng-repeat="user in users" value="@{{user.id}}">@{{user.name}}</option>
+                    </select>
+
+                    @if ($errors->has('users'))
+                        <span class="help-block">
+                            <strong>{{ $errors->first('users') }}</strong>
+                        </span>
+                    @endif
+                </div>
+            </div>
+
+            <div class="form-group{{ $errors->has('organizations') ? ' has-error' : '' }}">
+                <label class="col-md-4 control-label">Add to Organizations</label>
+
+                <div class="col-md-6">
+                    <select multiple name="organizations[]" style="width:25%">
+                        <option ng-repeat="organization in organizations" value="@{{organization.id}}">@{{organization.name}}</option>
+                    </select>
+
+                    @if ($errors->has('organizations'))
+                        <span class="help-block">
+                            <strong>{{ $errors->first('organizations') }}</strong>
+                        </span>
+                    @endif
+                </div>
+            </div>
+
             <div class="form-group">
                 <div class="col-md-6 col-md-offset-4">
                     <button type="submit" class="btn btn-primary">

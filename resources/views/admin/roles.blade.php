@@ -4,7 +4,8 @@
 
 		<ol class="breadcrumb">
 		    <li><a href="index.html"><i class="fa fa-home fa-fw"></i> Home</a></li>
-	        <li><a href="/roles"> Roles</a></li>
+	        <li><a href="/roles"> System Admin</a></li>
+			<li><a href="/roles"> Roles</a></li>
 		</ol>
 		
 	@endsection
@@ -87,6 +88,7 @@
 			    $scope.dtOptions = DTOptionsBuilder.newOptions()
 			        .withDisplayLength(8);
 
+				$scope.permissions = {!! $permissions !!};
 				$scope.roles = {!! $roles !!};
 
 		        $scope.init = function() {

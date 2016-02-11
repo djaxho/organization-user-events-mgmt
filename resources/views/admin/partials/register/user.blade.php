@@ -40,52 +40,49 @@
                 </div>
             </div>
 
-            <div class="form-group{{ $errors->has('role') ? ' has-error' : '' }}">
-                <label class="col-md-4 control-label">User Role</label>
+            <div class="form-group{{ $errors->has('roles') ? ' has-error' : '' }}">
+                <label class="col-md-4 control-label">User Roles</label>
 
                 <div class="col-md-6">
-                    <select name="role" style="width:25%"> 
-                            <option value="" selected disabled>Select Role</option>
+                    <select multiple name="roles[]" style="width:25%">
                             <option ng-repeat="role in roles" value="@{{role.id}}">@{{role.label}}</option>
                     </select>
 
-                    @if ($errors->has('role'))
+                    @if ($errors->has('roles'))
                         <span class="help-block">
-                            <strong>{{ $errors->first('role') }}</strong>
+                            <strong>{{ $errors->first('roles') }}</strong>
                         </span>
                     @endif
                 </div>
             </div>
 
-            <div class="form-group{{ $errors->has('organization') ? ' has-error' : '' }}">
-                <label class="col-md-4 control-label">User Organization</label>
+            <div class="form-group{{ $errors->has('organizations') ? ' has-error' : '' }}">
+                <label class="col-md-4 control-label">User Organizations</label>
 
                 <div class="col-md-6">
-                    <select name="organization" style="width:25%"> 
-                            <option value="" selected disabled>Select Organization</option>
+                    <select multiple name="organizations[]" style="width:25%">
                             <option ng-repeat="organization in organizations" value="@{{organization.id}}">@{{organization.name}}</option>
                     </select>
 
-                    @if ($errors->has('organization'))
+                    @if ($errors->has('organizations'))
                         <span class="help-block">
-                            <strong>{{ $errors->first('organization') }}</strong>
+                            <strong>{{ $errors->first('organizations') }}</strong>
                         </span>
                     @endif
                 </div>
             </div>
 
-            <div class="form-group{{ $errors->has('group') ? ' has-error' : '' }}">
-                <label class="col-md-4 control-label">User Group</label>
+            <div class="form-group{{ $errors->has('groups') ? ' has-error' : '' }}">
+                <label class="col-md-4 control-label">User Groups</label>
 
                 <div class="col-md-6">
-                    <select name="group" style="width:25%"> 
-                            <option value="" selected disabled>Select Group</option>
+                    <select multiple name="groups[]" style="width:25%">
                             <option ng-repeat="group in groups" value="@{{group.id}}">@{{group.name}}</option>
                     </select>
 
-                    @if ($errors->has('group'))
+                    @if ($errors->has('groups'))
                         <span class="help-block">
-                            <strong>{{ $errors->first('group') }}</strong>
+                            <strong>{{ $errors->first('groups') }}</strong>
                         </span>
                     @endif
                 </div>

@@ -4,7 +4,8 @@
 
 		<ol class="breadcrumb">
 		    <li><a href="index.html"><i class="fa fa-home fa-fw"></i> Home</a></li>
-	        <li><a href="/permissions"> Permissions</a></li>
+	        <li><a href="/permissions"> System Admin</a></li>
+            <li><a href="/permissions"> Permissions</a></li>
 		</ol>
 		
 	@endsection
@@ -86,6 +87,7 @@
 			        .withDisplayLength(8);
 
 				$scope.permissions = {!! $permissions !!};
+				$scope.roles = {!! $roles !!};
 
 		        $scope.init = function() {
 		        	$('#model-data').fadeIn();

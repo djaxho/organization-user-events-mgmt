@@ -4,7 +4,8 @@
 
 		<ol class="breadcrumb">
 		    <li><a href="index.html"><i class="fa fa-home fa-fw"></i> Home</a></li>
-	        <li><a href="/organizations"> Organizations</a></li>
+	        <li><a href="/organizations"> System Admin</a></li>
+			<li><a href="/organizations"> Organizations</a></li>
 		</ol>
 		
 	@endsection
@@ -82,7 +83,9 @@
 			    $scope.dtOptions = DTOptionsBuilder.newOptions()
 			        .withDisplayLength(8);
 
+				$scope.users = {!! $users !!};
 				$scope.organizations = {!! $organizations !!};
+				$scope.groups = {!! $groups !!};
 
 		        $scope.init = function() {
 					$('#model-data').fadeIn();

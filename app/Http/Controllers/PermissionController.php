@@ -29,8 +29,10 @@ class PermissionController extends Controller
     public function index()
     {
         $permissions = $this->permissions->all();
+        $roles = $this->roles->all();
 
         $data['permissions'] = ($permissions) ? json_encode($permissions) : json_encode([]);
+        $data['roles'] = ($roles) ? json_encode($roles) : json_encode([]);
 
         return view('admin.permissions', $data);
     }
@@ -64,6 +66,12 @@ class PermissionController extends Controller
                 'label' => $label,
                 'about' => $about
             ]);
+
+            if(is_array($request->input('roles'))) {
+                foreach($request->input('roles') as $id) {
+                    $permission->attachRole($id);
+                }
+            }
 
             if(!$permission) {
                 $status = 'Failed to add permission to the system.';

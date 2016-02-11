@@ -8,6 +8,7 @@
 
         <ol class="breadcrumb">
             <li><a href="index.html"><i class="fa fa-home fa-fw"></i> Home</a></li>
+            <li><a href="/{{$primaryModel}}s">System Admin</a></li>
             <li><a href="/{{$primaryModel}}s">{{ucfirst($primaryModel)}}s</a></li>
             <li><a href="">Edit</a></li>
         </ol>

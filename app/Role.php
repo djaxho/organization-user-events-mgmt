@@ -31,6 +31,16 @@ class Role extends Model
         return $this->belongsToMany('App\User');
     }
 
+    public function attachUser($user)
+    {
+        return $this->users()->attach($user);
+    }
+
+    public function detachUser($user)
+    {
+        return $this->users()->detach($user);
+    }
+
     public function hasUser($user)
     {
         if (is_string($user)) {

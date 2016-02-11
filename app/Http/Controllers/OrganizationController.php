@@ -10,16 +10,18 @@ use App\Organization;
 use App\User;
 use App\Repositories\OrganizationRepository;
 use App\Repositories\GroupRepository;
+use App\Repositories\UserRepository;
 
 class OrganizationController extends Controller
 {
     protected $organizations;
     protected $groups;
 
-    public function __construct(OrganizationRepository $organizations, GroupRepository $groups)
+    public function __construct(OrganizationRepository $organizations, GroupRepository $groups, UserRepository $users)
     {
         $this->organizations = $organizations;
         $this->groups = $groups;
+        $this->users = $users;
     }
 
     /**
@@ -30,8 +32,12 @@ class OrganizationController extends Controller
     public function index()
     {
         $organizations = $this->organizations->all();
+        $groups = $this->groups->all();
+        $users = $this->users->all();
 
         $data['organizations'] = ($organizations) ? json_encode($organizations) : json_encode([]);
+        $data['groups'] = ($groups) ? json_encode($groups) : json_encode([]);
+        $data['users'] = ($users) ? json_encode($users) : json_encode([]);
 
         return view('admin.organizations', $data);
     }
@@ -65,6 +71,18 @@ class OrganizationController extends Controller
                 'label' => $label,
                 'about' => $about
             ]);
+
+            if(is_array($request->input('groups'))) {
+                foreach($request->input('groups') as $id) {
+                    $organization->attachGroup($id);
+                }
+            }
+
+            if(is_array($request->input('users'))) {
+                foreach($request->input('users') as $id) {
+                    $organization->attachUser($id);
+                }
+            }
 
             if(!$organization) {
                 $status = 'Failed to add organization to the system.';
@@ -104,13 +122,15 @@ class OrganizationController extends Controller
     {
         $data = [];
 
-        $organization = Organization::with('groups')->find($id);
+        $organization = Organization::with('groups','users')->find($id);
         $groups = $this->groups->all();
+        $users = $this->users->all();
 
         $data['primaryModel'] = 'organization';
         $data['primaryModelData'] = $organization->toArray();
         $data['secondaryModelData'] = [
-            'groups' => $groups->toArray()
+            'groups' => $groups->toArray(),
+            'users' => $users->toArray()
         ];
 
         unset($data['primaryModelData']['created_at'],$data['primaryModelData']['updated_at']);
@@ -130,12 +150,18 @@ class OrganizationController extends Controller
         $organization = Organization::find($id);
 
         $organization->fill($request->all());
-
         $organization->groups()->detach();
+        $organization->users()->detach();
 
         if(is_array($request->input('groups'))) {
             foreach($request->input('groups') as $id) {
                 $organization->attachGroup($id);
+            }
+        }
+
+        if(is_array($request->input('users'))) {
+            foreach($request->input('users') as $id) {
+                $organization->attachUser($id);
             }
         }
 

@@ -9,16 +9,18 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Repositories\RoleRepository;
 use App\Repositories\PermissionRepository;
+use App\Repositories\UserRepository;
 
 class RoleController extends Controller
 {
     protected $roles;
     protected $permissions;
 
-    public function __construct(RoleRepository $roles, PermissionRepository $permissions)
+    public function __construct(RoleRepository $roles, PermissionRepository $permissions, UserRepository $users)
     {
         $this->roles = $roles;
         $this->permissions = $permissions;
+        $this->users = $users;
     }
 
     /**
@@ -28,8 +30,10 @@ class RoleController extends Controller
      */
     public function index()
     {
+        $permissions = $this->permissions->all();
         $roles = $this->roles->all();
 
+        $data['permissions'] = ($permissions) ? json_encode($permissions) : json_encode([]);
         $data['roles'] = ($roles) ? json_encode($roles) : json_encode([]);
 
         return view('admin.roles', $data);
@@ -64,6 +68,12 @@ class RoleController extends Controller
                 'label' => $label,
                 'about' => $about
             ]);
+
+            if(is_array($request->input('permissions'))) {
+                foreach($request->input('permissions') as $id) {
+                    $role->attachPermission($id);
+                }
+            }
 
             if(!$role) {
                 $status = 'Failed to add role to the system.';
@@ -103,13 +113,15 @@ class RoleController extends Controller
     {
         $data = [];
 
-        $role = Role::with('permissions')->find($id);
+        $role = Role::with('permissions', 'users')->find($id);
         $permissions = $this->permissions->all();
+        $users = $this->users->all();
 
         $data['primaryModel'] = 'role';
         $data['primaryModelData'] = $role->toArray();
         $data['secondaryModelData'] = [
-            'permissions' => $permissions->toArray()
+            'permissions' => $permissions->toArray(),
+            'users' => $users->toArray()
         ];
 
         unset($data['primaryModelData']['created_at'],$data['primaryModelData']['updated_at']);
@@ -129,12 +141,18 @@ class RoleController extends Controller
         $role = Role::find($id);
 
         $role->fill($request->all());
-
         $role->permissions()->detach();
+        $role->users()->detach();
 
         if(is_array($request->input('permissions'))) {
             foreach($request->input('permissions') as $id) {
                 $role->attachPermission($id);
+            }
+        }
+
+        if(is_array($request->input('users'))) {
+            foreach($request->input('users') as $id) {
+                $role->attachUser($id);
             }
         }
 

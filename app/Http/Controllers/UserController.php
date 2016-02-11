@@ -79,13 +79,13 @@ class UserController extends Controller
     {
         $name = $request->input('name', '');
         $email = $request->input('email', '');
-        $role = $request->input('role', '');
-        $organization = $request->input('organization', '');
-        $group = $request->input('group', '');
+        $roles = $request->input('roles', '');
+        $organizations = $request->input('organizations', '');
+        $groups = $request->input('groups', '');
         $pswd = $request->input('password', '');
         $pswd_conf = $request->input('password_confirmation', '');
 
-        if ($name && $email && $role && $organization && $group && $pswd && $pswd_conf) {
+        if ($name && $email && $roles && $organizations && $groups && $pswd && $pswd_conf) {
 
             if ($pswd === $pswd_conf) {
 
@@ -94,9 +94,24 @@ class UserController extends Controller
                     'email' => $email,
                     'password' => bcrypt($pswd),
                 ]);
-                $user->attachOrganization($organization);
-                $user->attachGroup($group);
-                $user->attachRole($role);
+
+                if(is_array($request->input('roles'))) {
+                    foreach($request->input('roles') as $id) {
+                        $user->attachRole($id);
+                    }
+                }
+
+                if(is_array($request->input('organizations'))) {
+                    foreach($request->input('organizations') as $id) {
+                        $user->attachOrganization($id);
+                    }
+                }
+
+                if(is_array($request->input('groups'))) {
+                    foreach($request->input('groups') as $id) {
+                        $user->attachGroup($id);
+                    }
+                }
 
             } else {
                 $status = 'The passwords entered did not match!';
