@@ -33,14 +33,6 @@ Route::group(['middleware' => 'web'], function () {
     // Admin routes
     Route::get('/admin/{model}', 'AdminController@getModelAdmin');
 
-    // profile routes
-    Route::get('users/{id}', function ($id) {
-
-        $data = ['user' => User::find($id)];
-        return view('profiles.user', $data);
-
-    });
-
     Route::get('organizations/{id}', function ($id) {
 
         $data = ['organization' => Organization::find($id)];

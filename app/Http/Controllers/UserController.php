@@ -134,11 +134,32 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Request $request, $id)
     {
         $user = User::with('roles.permissions', 'organizations.groups', 'groups')->find($id);
-        
-        return response()->json($user);
+
+
+
+
+
+//        echo '<pre>';
+//        echo '<b>current Groups</b><br>';
+//        print_r($user->toArray()['groups']);
+//
+//        echo '<b>current Organizations</b><br>';
+//        print_r($user->toArray()['organizations']);
+
+
+
+
+
+        $data = ['user' => $user];
+
+        if($request->wantsJson()) {
+            return response()->json($user);
+        } else {
+            return view('profiles.user', $data);
+        }
     }
 
     /**

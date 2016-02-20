@@ -16,6 +16,46 @@ class Group extends Model
     ];
 
     /**
+     * Get all of the likes
+     */
+    public function likes()
+    {
+        return $this->morphMany('App\Like', 'likeable');
+    }
+
+    /**
+     * Get all of the tags
+     */
+    public function tags()
+    {
+        return $this->morphToMany('App\Tag', 'taggable');
+    }
+
+    /**
+     * Get all of the comments
+     */
+    public function comments()
+    {
+        return $this->morphMany('App\Comment', 'commentable');
+    }
+
+    /**
+     * Get all of the posts
+     */
+    public function posts()
+    {
+        return $this->morphToMany('App\Post', 'postable');
+    }
+
+    /**
+     * Get all of the events
+     */
+    public function events()
+    {
+        return $this->morphToMany('App\Event', 'eventable');
+    }
+
+    /**
      * Get the organization that owns the group.
      */
     public function organizations()

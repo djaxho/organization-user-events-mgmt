@@ -16,6 +16,30 @@ class User extends Authenticatable
     ];
 
     /**
+     * Get all of the likes
+     */
+    public function likes()
+    {
+        return $this->morphMany('App\Like', 'likeable');
+    }
+
+    /**
+     * Get all of the tags
+     */
+    public function tags()
+    {
+        return $this->morphToMany('App\Tag', 'taggable');
+    }
+
+    /**
+     * Get all of the comments
+     */
+    public function comments()
+    {
+        return $this->morphMany('App\Comment', 'commentable');
+    }
+
+    /**
      * The attributes excluded from the model's JSON form.
      *
      * @var array

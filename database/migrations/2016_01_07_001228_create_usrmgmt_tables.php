@@ -159,15 +159,15 @@ class CreateUsrmgmtTables extends Migration
      */
     public function down()
     {
+        Schema::drop('role_user');
+        Schema::drop('permission_role');
+        Schema::drop('group_user');
+        Schema::drop('organization_user');
+        Schema::drop('group_organization');
+
         Schema::drop('organizations');
         Schema::drop('groups');
         Schema::drop('roles');
         Schema::drop('permissions');
-
-        Schema::drop('permission_role');
-        Schema::drop('role_user');
-        Schema::drop('organization_user');
-        Schema::drop('group_user');
-        Schema::drop('group_organization');
     }
 }
