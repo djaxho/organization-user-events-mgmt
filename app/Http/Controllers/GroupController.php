@@ -104,11 +104,15 @@ class GroupController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Request $request, $id)
     {
         $group = Group::with('organizations.users')->find($id);
         
-        return response()->json($group);
+        if($request->wantsJson()) {
+            return response()->json($group);
+        } else {
+            return view('profiles.group', ['group' => $group]);
+        }
     }
 
     /**

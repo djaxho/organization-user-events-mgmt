@@ -18,7 +18,7 @@
 		  	<table datatable="ng" dt-options="dtOptions" class="table table-striped">
 				<thead>
 				  <tr>
-				  	<th>Id</th>
+				  	<th>Ids</th>
 				  	<th>Name</th>
 				  	<th>Email</th>
 				  	<th>Role</th>
@@ -43,11 +43,11 @@
 						</td>
 
 						<td>
-							<span ng-hide="user.showEdit">@{{user.roles[0].label}}</span>
+							<span ng-hide="user.showEdit">@{{user.roles[0].name}}</span>
 							<form ng-show="user.showEdit" class="form-inline">
 								<select class="form-control"
 										ng-model="user.role"
-										ng-options="item.id as item.label for item in roles"
+										ng-options="item.id as item.name for item in roles"
 										ng-init="user.role = user.roles[0].id">
 										<option value="">Select Role</option>
 								</select>

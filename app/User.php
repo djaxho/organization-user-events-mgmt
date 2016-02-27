@@ -16,15 +16,15 @@ class User extends Authenticatable
     ];
 
     /**
-     * Get all of the likes
+     * Get the likes this user has contributed
      */
     public function likes()
     {
-        return $this->morphMany('App\Like', 'likeable');
+        return $this->hasMany('App\Like');
     }
 
     /**
-     * Get all of the tags
+     * Get all of the tags applied to this user
      */
     public function tags()
     {
@@ -32,11 +32,11 @@ class User extends Authenticatable
     }
 
     /**
-     * Get all of the comments
+     * Get all of the comments made by user
      */
     public function comments()
     {
-        return $this->morphMany('App\Comment', 'commentable');
+        return $this->hasMany('App\Comment');
     }
 
     /**
@@ -65,7 +65,23 @@ class User extends Authenticatable
     }
 
     /**
-     * The roles that belong to the user.
+     * The events this user can edit
+     */
+    public function editableEvents()
+    {
+        return $this->belongsToMany(Event::class, 'event_editors');
+    }
+
+    /**
+     * The events this user is attending
+     */
+    public function events()
+    {
+        return $this->belongsToMany(Event::class);
+    }
+
+    /**
+     * The roles this user has
      */
     public function roles()
     {
@@ -149,5 +165,37 @@ class User extends Authenticatable
         }
 
         return !! $role->intersect($this->roles)->count();
+    }
+
+    /**
+     * When user commits to attending event (id or obj)
+     */
+    public function attachEvent($event)
+    {
+        return $this->events()->attach($event);
+    }
+
+    /**
+     * When user Un-commits from attending event (id or obj)
+     */
+    public function detachEvent($event)
+    {
+        return $this->events()->detach($event);
+    }
+
+    /**
+     * When user commits to attending event (id or obj)
+     */
+    public function attachEditableEvent($event)
+    {
+        return $this->editableEvents()->attach($event);
+    }
+
+    /**
+     * When user Un-commits from attending event (id or obj)
+     */
+    public function detachEditableEvent($event)
+    {
+        return $this->editableEvents()->detach($event);
     }
 }

@@ -43,6 +43,7 @@
     .sm .thumbprint_img {
         width: 32px;
         height: 32px;
+        font-size: 2.6em;
     }
     .thumbprint_title {
 
@@ -64,16 +65,17 @@
         font-size: 13px;
         line-height: 16px;
     }
+
 </style>
 <div class="col-sm-12 thumbprint {{$size}}" data-url="{{  $url or "#" }}">
     <div class="">
-        <img style="float: left;" src="{{$img}}" class="img-responsive thumbprint_img">
+        <div style="float: left;" class="img-responsive thumbprint_img"><i class="fa fa-calendar"></i></div>
         <div class="member_name_and_title">
             <div class="">
-                <a href="#" class="thumbprint_title">{{$title}}</a>
+                <span class="thumbprint_title">{{$title}}</span>
             </div>
             <div>
-                <span class="thumbprint_subtitle">{{$subtitle}}</span>
+                <span class="thumbprint_subtitle">{{$date}} - {{$subtitle}}</span>
             </div>
         </div>
     </div>

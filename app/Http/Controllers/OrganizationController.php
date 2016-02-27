@@ -105,11 +105,15 @@ class OrganizationController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Request $request, $id)
     {
         $organization = Organization::with('groups', 'users')->find($id);
-        
-        return response()->json($organization);
+
+        if($request->wantsJson()) {
+            return response()->json($organization);
+        } else {
+            return view('profiles.organization', ['organization' => $organization]);
+        }
     }
 
     /**

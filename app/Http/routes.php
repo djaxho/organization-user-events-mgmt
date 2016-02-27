@@ -33,16 +33,10 @@ Route::group(['middleware' => 'web'], function () {
     // Admin routes
     Route::get('/admin/{model}', 'AdminController@getModelAdmin');
 
-    Route::get('organizations/{id}', function ($id) {
-
-        $data = ['organization' => Organization::find($id)];
-        return view('profiles.organization', $data);
-
-    });
-
     // API Routes
     Route::resource('organizations', 'OrganizationController');
     Route::resource('groups', 'GroupController');
+    Route::resource('events', 'EventController');
     Route::resource('users', 'UserController');
     Route::post('users/updateRole', 'UserController@updateRole');
     Route::resource('roles', 'RoleController');

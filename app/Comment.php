@@ -7,6 +7,14 @@ use Illuminate\Database\Eloquent\Model;
 class Comment extends Model
 {
     /**
+     * Get the user that owns the comment
+     */
+    public function user()
+    {
+        return $this->belongsTo('App\User');
+    }
+
+    /**
      * Get all of the owning commentable models.
      */
     public function commentable()

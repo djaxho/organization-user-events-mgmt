@@ -101,6 +101,11 @@
                 -o-transition: all 1s;
                 transition: all 1s;
             }
+            .card-header .card-title .title .title-option {
+                float:right;
+                font-size: 0.75em;
+                line-height: 2.5em;
+            }
 
         </style>
         
@@ -113,29 +118,32 @@
                       <img class="center-block img-circle img-responsive" src="http://api.randomuser.me/portraits/men/{{rand(1,21)}}.jpg" alt="">
                     </a>
                     <h2 class="profile-name">{{$user->name}}</h2>
-                    <h4 class="profile-designation">Software Engineer</h4>
+                    <h4 class="profile-designation">{{$user->profession}}</h4>
                     <br>
                 </div>
                 <div class="profile-left-body">
                     <h4 class="panel-title">About Me</h4>
-                    <p>Social media ninja. Pop culture enthusiast. Zombie fanatic. General tv evangelist.</p>
-                    <p>Alcohol fanatic. Explorer. Passionate reader. Entrepreneur. Lifelong coffee advocate. Avid bacon aficionado. Travel evangelist.</p>
+                    <p>
+                        {{$user->about}}
+                    </p>
 
                     <hr class="fadeout">
 
                     <h4 class="panel-title">Location</h4>
-                    <p><i class="glyphicon glyphicon-map-marker mr5"></i> San Francisco, CA, USA</p>
+                    <p><i class="glyphicon glyphicon-map-marker mr5"></i> {{$user->city}}, {{$user->state}}</p>
 
                     <hr class="fadeout">
 
-                    <h4 class="panel-title">Company</h4>
-                    <p><i class="glyphicon glyphicon-briefcase mr5"></i> Awesome Company, Inc.</p>
+                    <h4 class="panel-title">Organization</h4>
+                    @foreach($user->organizations as $organization)
+                        <a href="/organizations/{{ $organization->id }}"><p><i class="glyphicon glyphicon-briefcase mr5"></i> {{" ".$organization->name}}</p></a>
+                    @endforeach
 
                     <hr class="fadeout">
 
                     <h4 class="panel-title">Contacts</h4>
-                    <p><i class="glyphicon glyphicon-phone mr5"></i> +1 010 123 5678</p>
-                    <p><i class="glyphicon glyphicon-envelope mr5"></i> &nbsp{{$user->email}}</p>
+                    <p><i class="glyphicon glyphicon-phone mr5"></i> {{" ".$user->phone}}</p>
+                    <p><i class="glyphicon glyphicon-envelope mr5"></i> {{" ".$user->email}}</p>
                     <hr class="fadeout">
 
                     <h4 class="panel-title">Social</h4>
@@ -153,57 +161,40 @@
                 <div class="card">
                     <div class="card-header">
                         <div class="card-title">
-                            <div class="title">Groups</div>
+                            <div class="title">
+                                Groups
+                                <span class="title-option"><i class="fa fa-plus-square-o"></i> Join Groups</span>
+                            </div>
                         </div>
                     </div>
                     <div class="card-body">
 
                         <div class="col-sm-6">
-                            @include('components.thumbprint', [
-                                'size' => '',
-                                'img' => 'http://lorempixel.com/100/100/nature',
-                                'title' => 'Hiking Club',
-                                'subtitle' =>  'Get out on the weekends to enjoy the fresh air'
-                            ])
+                            
+                            @foreach($user->groups()->paginate(8) as $k => $group)
 
-                            @include('components.thumbprint', [
-                                'size' => '',
-                                'img' => 'http://loremflickr.com/100/100/safety',
-                                'title' => 'Safety Preparedness',
-                                'subtitle' =>  'Ensure the safety of you and your loved ones'
-                            ])
+                                @include('components.thumbprint', [
+                                    'size' => '',
+                                    'img' => 'http://lorempixel.com/100/100/',
+                                    'title' => $group->name,
+                                    'subtitle' =>  $group->label,
+                                    'url' => '/groups/'.$group->id
+                                ])
 
-                            @include('components.thumbprint', [
-                                'size' => '',
-                                'img' => '../../img/thumbnails/picjumbo.com_IMG_3241.jpg',
-                                'title' => 'Business Club',
-                                'subtitle' =>  'Meet young professionals in your area'
-                            ])
+                                @if($k > 2)
+
+                                    </div>
+
+                                    <div class="col-sm-6">
+
+                                @endif
+
+                            @endforeach
 
                         </div>
 
-                        <div class="col-sm-6">
-                            @include('components.thumbprint', [
-                                'size' => '',
-                                'img' => 'http://lorempixel.com/100/100/city',
-                                'title' => 'Real Estate Investors',
-                                'subtitle' =>  'Get out on the weekends to enjoy the fresh air'
-                            ])
-
-                            @include('components.thumbprint', [
-                                'size' => '',
-                                'img' => 'http://loremflickr.com/100/100/abstract',
-                                'title' => 'Geology Club',
-                                'subtitle' =>  'Ensure the safety of you and your loved ones'
-                            ])
-
-                            @include('components.thumbprint', [
-                                'size' => '',
-                                'img' => 'http://lorempixel.com/100/100/sports',
-                                'title' => 'Sports Meetups',
-                                'subtitle' =>  'Meet young professionals in your area'
-                            ])
-
+                        <div class="col-sm-12 text-right">
+                            {{$user->groups()->paginate(4)->links()}}
                         </div>
                     </div>
                 </div>
@@ -219,26 +210,17 @@
                     <div class="card-body" style="padding: 5px 0;">
 
                         <div class="col-sm-12" >
-                            @include('components.thumbprint', [
-                                'size' => 'sm',
-                                'img' => 'http://lorempixel.com/100/100/nature',
-                                'title' => 'Hiking Club',
-                                'subtitle' =>  'Get out on the weekends to enjoy the fresh air'
-                            ])
 
-                            @include('components.thumbprint', [
-                                'size' => 'sm',
-                                'img' => 'http://loremflickr.com/100/100/safety',
-                                'title' => 'Safety Preparedness',
-                                'subtitle' =>  'Ensure the safety of you and your loved ones'
-                            ])
+                            @foreach($user->events as $k => $event)
+                                @include('components.thumbprint-event', [
+                                    'size' => 'sm',
+                                    'title' => $event->title,
+                                    'date' => $event->event_date->format('j M, Y'),
+                                    'subtitle' =>  $event->label,
+                                    'url' => '/events/'.$event->id
+                                ])
 
-                            @include('components.thumbprint', [
-                                'size' => 'sm',
-                                'img' => '../../img/thumbnails/picjumbo.com_IMG_3241.jpg',
-                                'title' => 'Business Club',
-                                'subtitle' =>  'Meet young professionals in your area'
-                            ])
+                            @endforeach
 
                         </div>
                     </div>
@@ -302,6 +284,62 @@
                 </div>
             </div>
 
+            <div class="col-sm-2 small-card-container">
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">
+                            <div class="title expand-card">Comments (3)</div>
+                        </div>
+                    </div>
+                    <div class="card-body" style="padding: 5px 0;">
+
+                        <div class="col-sm-12" >
+
+                            @foreach($user->comments()->paginate(8) as $k => $comment)
+
+                                @include('components.thumbprint', [
+                                    'size' => 'sm',
+                                    'img' => 'http://lorempixel.com/100/100/nature',
+                                    'title' => $comment->body,
+                                    'subtitle' =>  'Your comment on '. $comment->commentable->title,
+                                ])
+
+                            @endforeach
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-2 small-card-container">
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">
+                            <div class="title expand-card">Likes (3)</div>
+                        </div>
+                    </div>
+                    <div class="card-body" style="padding: 5px 0;">
+
+                        <div class="col-sm-12" >
+
+                            @foreach($user->likes as $like)
+
+                                @include('components.thumbprint', [
+                                    'size' => 'sm',
+                                    'img' => 'http://lorempixel.com/100/100/nature',
+                                    'title' => 'You liked an '.$like->likeable_type,
+                                    'subtitle' =>  'Made by '.$like->likeable->user->name,
+                                ])
+
+                            @endforeach
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <div class="col-sm-7 small-card-container">
 
 
@@ -321,7 +359,7 @@
                       <div class="tab-content">
                         <div class="tab-pane active" id="activity">
 
-                           
+
                             <div class="col-sm-3">
                                 <div class="thumbnail">
                                     <img src="http://loremflickr.com/800/533/safety" class="img-responsive">
@@ -330,7 +368,7 @@
                                         <p>Ensure the safety of you and your loved ones</p>
                                         <p>
                                             <div class="btn-group">
-                                            <a href="#" class="btn btn-primary" role="button">Enter</a> 
+                                            <a href="#" class="btn btn-primary" role="button">Enter</a>
                                             </div>
                                             <div class="btn-group">
                                                     <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Options <span class="caret"></span></button>
@@ -352,7 +390,7 @@
                                         <p>Interact with your neigbors who also have home offices</p>
                                         <p>
                                             <div class="btn-group">
-                                            <a href="#" class="btn btn-primary" role="button">Enter</a> 
+                                            <a href="#" class="btn btn-primary" role="button">Enter</a>
                                             </div>
                                             <div class="btn-group">
                                                     <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Options <span class="caret"></span></button>
@@ -412,8 +450,19 @@
 
     @section('async-js')
     <script>
-        $('.expand-card').click(function() {
-            $('.small-card-container').removeClass('col-sm-2').addClass('col-sm-9');
+
+        $(document).ready(function() {
+
+            $('.expand-card').click(function () {
+                $('.small-card-container').removeClass('col-sm-2').addClass('col-sm-9');
+            });
+
+            $('[data-url]').click(function () {
+
+                var url = $(this).data('url');
+
+                document.location.href = url;
+            });
         });
 
 

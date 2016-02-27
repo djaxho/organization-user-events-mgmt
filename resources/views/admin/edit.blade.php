@@ -74,7 +74,7 @@
                                                                 @endif
                                                             @endforeach
                                                     >
-                                                        {{$arrayval['name']}} - {{$arrayval['about']}}
+                                                        {{$arrayval['name']}}
                                                     </option>
 
                                                 @endforeach

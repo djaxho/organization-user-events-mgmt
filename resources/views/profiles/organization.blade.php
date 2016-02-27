@@ -11,7 +11,7 @@
         <li><a href="/organizations"> Organizations</a></li>
 	    <li class="active">{{$organization->name}}</li>
 	</ol>
-		
+
 	@endsection
 
 	@section('main-panel-title', $organization->name)

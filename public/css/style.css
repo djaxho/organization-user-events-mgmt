@@ -420,7 +420,7 @@ a:hover {
     padding: 12.5px; }
   .card .card-header .card-title {
     padding: 1.2em 25px;
-    float: left; }
+    /*float: left;*/ }
     .card .card-header .card-title .title {
       font-family: 'Roboto Condensed', sans-serif;
       font-size: 1.5em;

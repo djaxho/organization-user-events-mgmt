@@ -14,6 +14,9 @@ class UserInteractionTables extends Migration
     {
         Schema::create('posts', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('title')->nullable();
+            $table->string('label')->nullable();
+            $table->longText('body')->nullable();
             $table->timestamps();
         });
 
@@ -24,20 +27,10 @@ class UserInteractionTables extends Migration
             $table->timestamps();
         });
 
-        Schema::create('events', function (Blueprint $table) {
-            $table->increments('id');
-            $table->timestamps();
-        });
-
-        Schema::create('eventables', function (Blueprint $table) {
-            $table->integer('event_id');
-            $table->integer('eventable_id');
-            $table->string('eventable_type');
-            $table->timestamps();
-        });
-
         Schema::create('comments', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('user_id')->unsigned();
+            $table->longText('body')->nullable();
             $table->integer('commentable_id');
             $table->string('commentable_type');
             $table->timestamps();
@@ -45,11 +38,17 @@ class UserInteractionTables extends Migration
 
         Schema::create('replies', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('comment_id')->unsigned();
+            $table->longText('body')->nullable();
             $table->timestamps();
         });
 
         Schema::create('invites', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('user_id')->unsigned();
+            $table->string('email')->unique();
+            $table->string('code', 60); // hash
+            $table->boolean('used');
             $table->timestamps();
         });
 
@@ -60,6 +59,10 @@ class UserInteractionTables extends Migration
 
         Schema::create('tags', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('user_id')->unsigned();
+            $table->string('name');
+            $table->string('label')->nullable();
+            $table->longText('about')->nullable();
             $table->timestamps();
         });
 
@@ -72,6 +75,7 @@ class UserInteractionTables extends Migration
 
         Schema::create('likes', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('user_id')->unsigned();
             $table->integer('likeable_id');
             $table->string('likeable_type');
             $table->timestamps();
@@ -86,12 +90,13 @@ class UserInteractionTables extends Migration
     public function down()
     {
         Schema::drop('posts');
-        Schema::drop('events');
+        Schema::drop('postables');
         Schema::drop('comments');
         Schema::drop('replies');
         Schema::drop('invites');
         Schema::drop('connections');
         Schema::drop('tags');
+        Schema::drop('taggables');
         Schema::drop('likes');
     }
 }

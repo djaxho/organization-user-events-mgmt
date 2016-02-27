@@ -31,7 +31,7 @@
 						<td ng-model="group.id">@{{group.id}}</td>
 
 						<td ng-model="group.name">
-							<span ng-hide="group.showEdit">@{{group.name}}</span>
+							<a ng-hide="group.showEdit" href="/groups/@{{group.id}}">@{{group.name}}</a>
 							<input ng-show="group.showEdit" class="form-control" ng-model="group.name">
 							<span class="btn btn-info btn-sm" ng-show="dontEverShow">Not real</span>
 						</td>

@@ -42,6 +42,26 @@ class CreateUsrmgmtTables extends Migration
             $table->timestamps();
         });
 
+        Schema::create('events', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('title');
+            $table->string('label')->nullable();
+            $table->longText('body')->nullable();
+            $table->string('street')->nullable();
+            $table->string('city')->nullable();
+            $table->string('state')->nullable();
+            $table->string('zip')->nullable();
+            $table->dateTime('event_date');
+            $table->timestamps();
+        });
+
+        Schema::create('eventables', function (Blueprint $table) {
+            $table->integer('event_id');
+            $table->integer('eventable_id');
+            $table->string('eventable_type');
+            $table->timestamps();
+        });
+
         //users
 
         Schema::create('roles', function (Blueprint $table) {
@@ -114,6 +134,42 @@ class CreateUsrmgmtTables extends Migration
 
         });
 
+        Schema::create('event_user', function (Blueprint $table) {
+            $table->integer('event_id')->unsigned();
+            $table->integer('user_id')->unsigned();
+
+            $table->foreign('event_id')
+                ->references('id')
+                ->on('events')
+                ->onDelete('cascade');
+
+            $table->foreign('user_id')
+                ->references('id')
+                ->on('users')
+                ->onDelete('cascade');
+
+            $table->primary(['event_id', 'user_id']);
+
+        });
+
+        Schema::create('event_editors', function (Blueprint $table) {
+            $table->integer('event_id')->unsigned();
+            $table->integer('user_id')->unsigned();
+
+            $table->foreign('event_id')
+                ->references('id')
+                ->on('events')
+                ->onDelete('cascade');
+
+            $table->foreign('user_id')
+                ->references('id')
+                ->on('users')
+                ->onDelete('cascade');
+
+            $table->primary(['event_id', 'user_id']);
+
+        });
+
         Schema::create('group_user', function (Blueprint $table) {
             $table->integer('group_id')->unsigned();
             $table->integer('user_id')->unsigned();
@@ -149,6 +205,7 @@ class CreateUsrmgmtTables extends Migration
             $table->primary(['group_id', 'organization_id']);
 
         });
+        
 
     }
 
@@ -164,9 +221,13 @@ class CreateUsrmgmtTables extends Migration
         Schema::drop('group_user');
         Schema::drop('organization_user');
         Schema::drop('group_organization');
+        Schema::drop('event_user');
+        Schema::drop('event_editors');
 
         Schema::drop('organizations');
         Schema::drop('groups');
+        Schema::drop('events');
+        Schema::drop('eventables');
         Schema::drop('roles');
         Schema::drop('permissions');
     }
