@@ -4,9 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-use App\Event;
+use App\Comment;
 
-class EventController extends Controller
+class CommentController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -36,7 +36,42 @@ class EventController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        if ($request->has('commentable_type') && $request->has('commentable_id') && $request->input('body')) {
+
+            $comment = new Comment();
+            $comment->user_id = rand(1,30);
+            $comment->body = $request->input('body');
+            $comment->commentable_type = $request->input('commentable_type');
+            $comment->commentable_id = $request->input('commentable_id');
+            
+            if($comment->save()) {
+                
+
+                if($request->wantsJson()) {
+                    return response()->json($comment->toArray());
+                } else {
+                    return back();
+                }
+
+
+
+            } else {
+                
+                if($request->wantsJson()) {
+                    return response()->json(['status' => 'failed']);
+                } else {
+                    return back();
+                }
+            }
+
+        }
+
+        if($request->wantsJson()) {
+            return response()->json(['status' => 'failed']);
+        } else {
+            return back();
+        }
+        
     }
 
     /**
@@ -47,13 +82,7 @@ class EventController extends Controller
      */
     public function show(Request $request, $id)
     {
-        $event = Event::with('editors', 'users', 'groups', 'organizations', 'likes', 'tags', 'comments')->find($id);
-
-        if($request->wantsJson()) {
-            return response()->json($event);
-        } else {
-            return view('profiles.event', ['model' => $event, 'modelType' => 'event']);
-        }
+        //
     }
 
     /**

@@ -21,12 +21,5 @@ class Like extends Model
     {
         return $this->morphTo();
     }
-
-    /**
-     * Get the user that owns the like
-     */
-    public function post()
-    {
-        return $this->belongsTo('App\User');
-    }
+    
 }

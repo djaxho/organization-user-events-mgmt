@@ -175,7 +175,7 @@
 
                                 @include('components.thumbprint', [
                                     'size' => '',
-                                    'img' => 'http://lorempixel.com/100/100/',
+                                    'img' => '/img/stock/'.rand(1,15).'.jpg',
                                     'title' => $group->name,
                                     'subtitle' =>  $group->label,
                                     'url' => '/groups/'.$group->id
@@ -240,41 +240,41 @@
                         <div class="col-sm-12" >
                             @include('components.thumbprint', [
                                 'size' => 'sm',
-                                'img' => 'http://lorempixel.com/100/100/nature',
+                                'img' => '/img/stock/'.rand(1,15).'.jpg',
                                 'title' => 'Hiking Club',
                                 'subtitle' =>  'Get out on the weekends to enjoy the fresh air'
                             ])
 
                             @include('components.thumbprint', [
                                 'size' => 'sm',
-                                'img' => 'http://loremflickr.com/100/100/safety',
+                                'img' => '/img/stock/'.rand(1,15).'.jpg',
                                 'title' => 'Safety Preparedness',
                                 'subtitle' =>  'Ensure the safety of you and your loved ones'
                             ])
 
                             @include('components.thumbprint', [
                                 'size' => 'sm',
-                                'img' => '../../img/thumbnails/picjumbo.com_IMG_3241.jpg',
+                                'img' => '/img/stock/'.rand(1,15).'.jpg',
                                 'title' => 'Business Club',
                                 'subtitle' =>  'Meet young professionals in your area'
                             ])
                             @include('components.thumbprint', [
                                 'size' => 'sm',
-                                'img' => 'http://lorempixel.com/100/100/nature',
+                                'img' => '/img/stock/'.rand(1,15).'.jpg',
                                 'title' => 'Hiking Club',
                                 'subtitle' =>  'Get out on the weekends to enjoy the fresh air'
                             ])
 
                             @include('components.thumbprint', [
                                 'size' => 'sm',
-                                'img' => 'http://loremflickr.com/100/100/safety',
+                                'img' => '/img/stock/'.rand(1,15).'.jpg',
                                 'title' => 'Safety Preparedness',
                                 'subtitle' =>  'Ensure the safety of you and your loved ones'
                             ])
 
                             @include('components.thumbprint', [
                                 'size' => 'sm',
-                                'img' => '../../img/thumbnails/picjumbo.com_IMG_3241.jpg',
+                                'img' => '/img/stock/'.rand(1,15).'.jpg',
                                 'title' => 'Business Club',
                                 'subtitle' =>  'Meet young professionals in your area'
                             ])
@@ -300,7 +300,7 @@
 
                                 @include('components.thumbprint', [
                                     'size' => 'sm',
-                                    'img' => 'http://lorempixel.com/100/100/nature',
+                                    'img' => '/img/stock/'.rand(1,15).'.jpg',
                                     'title' => $comment->body,
                                     'subtitle' =>  'Your comment on '. $comment->commentable->title,
                                 ])
@@ -312,33 +312,35 @@
                 </div>
             </div>
 
-            <div class="col-sm-2 small-card-container">
+            @if(count($user->likes) > 0)
+                <div class="col-sm-2 small-card-container">
 
-                <div class="card">
-                    <div class="card-header">
-                        <div class="card-title">
-                            <div class="title expand-card">Likes (3)</div>
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <div class="title expand-card">Likes (3)</div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="card-body" style="padding: 5px 0;">
+                        <div class="card-body" style="padding: 5px 0;">
 
-                        <div class="col-sm-12" >
+                            <div class="col-sm-12" >
 
-                            @foreach($user->likes as $like)
+                                @foreach($user->likes as $like)
 
-                                @include('components.thumbprint', [
-                                    'size' => 'sm',
-                                    'img' => 'http://lorempixel.com/100/100/nature',
-                                    'title' => 'You liked an '.$like->likeable_type,
-                                    'subtitle' =>  'Made by '.$like->likeable->user->name,
-                                ])
+                                    @include('components.thumbprint', [
+                                        'size' => 'sm',
+                                        'img' => '/img/stock/'.rand(1,15).'.jpg',
+                                        'title' => 'You liked an '. $like->likeable_type,
+                                        'subtitle' =>  'Made by ' . $like->likeable->name,
+                                    ])
 
-                            @endforeach
+                                @endforeach
 
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            @endif
 
             <div class="col-sm-7 small-card-container">
 

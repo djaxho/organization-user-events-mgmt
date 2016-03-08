@@ -69,7 +69,7 @@
         <div class="panel panel-default">
             <div style="padding:0;" class="panel-body">
                 <div class="block">
-                    <div class="bg-image" style="background-image: url('http://lorempixel.com/1800/800/nature');">
+                    <div class="bg-image" style="background-image: url('/img/stock/{{rand(1,15)}}.jpg');">
                         <div class="banner-img block-content bg-primary-dark-op text-center overflow-hidden">
                             <div class="top-avatar-slidein animated fadeInDown">
                                 <img class="img-avatar-small center-block img-circle img-thumbnail img-responsive" src="http://lorempixel.com/200/200/nature" alt="">

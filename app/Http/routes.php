@@ -35,6 +35,7 @@ Route::group(['middleware' => 'web'], function () {
 
     // API Routes
     Route::resource('organizations', 'OrganizationController');
+    Route::resource('comments', 'CommentController');
     Route::resource('groups', 'GroupController');
     Route::resource('events', 'EventController');
     Route::resource('users', 'UserController');
