@@ -4,7 +4,7 @@ use App\User;
 use App\Organization;
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('home');
 });
 
 
